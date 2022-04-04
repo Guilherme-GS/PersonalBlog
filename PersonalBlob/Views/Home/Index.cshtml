@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="alert alert-info show" id="connection-status"></div>
+
+<div class="blog-list card-columns" id="blog-list"></div>
+
+<div class="center">
+    <button id="carregar-mais" class="btn btn-primary" onclick="pageEvents.loadMoreBlogPosts();">Carregar posts anteriores</button>
+    <br />
+    <br />
+</div>
+
+<div class="card-columns">
+    <div class="card">
+        <div>
+            Camera: <input type="file" accept="image/*" capture="camera" />
+            <br /><br />
+        </div>
+        <div>
+            Gravacao: <input type="file" accept="video/*" capture="camcorder" />
+            <br /><br />
+        </div>
+        <div>
+            Microfone: <input type="file" accept="audio/*" capture="microphone" />
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body form-group">
+            <div>
+                <button type="button" class="btn btn-primary" id="address-button" onclick="pageEvents.getGeolocation();">Capturar Geolocation</button>
+                <br />
+                <br />
+            </div>
+            <div>
+                <div id="address-found-input" style="display:none">
+                    Cidade/Estado: <input id="address-found" type="text" />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body form-group">
+            <h4>Exemplo de Vibracao do Cel</h4>
+            <div>
+                <button type="button" class="btn btn-primary" id="address-button" onclick="pageEvents.vibrate();">Ativar vibracao cel</button>
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body form-group">
+            <h4>Exemplo de Orientacao</h4>
+            <div id="canvas"></div>
+            <div>
+                <div id="rotation-info"></div>
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="blog-item-container"></div>
+
+<script id="blog-card" type="text/template">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{PostId}} - {{Title}}</h5>
+            <p class="card-text">{{ShortDescription}}</p>
+            <button class="btn btn-primary" onclick="pageEvents.loadBlogPost('{{Link}}');">Ir</button>
+        </div>
+    </div>
+</script>
+
+<script id="blog-item" type="text/template">
+    <div id="{{Link}}" class="blog-item">
+        {{Content}}
+    </div>
+    <a href="#blog-title" class="btn btn-primary">voltar</a>
+</script>
+
+<script id="blog-content-not-found" type="text/template">
+    <h1>
+        Ups, artigo nao encontrado no cache!
+    </h1>
+    <div>
+        Voce quer que nos continuemos tentando fazer o download do artigo em plano de fundo e te comunicar quando estiver disponivel?
+    </div>
+    <br />
+    <button class="btn btn-primary download-start" onclick="pageEvents.setBackgroundFetch('{{Link}}')">Sim!</button>
+    <br />
+    <br />
+    <div id="status-download" style="display:none;">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+        </div>
+        <div class="text-success" style="display:none;">
+            <p>pronto</p>
+            <button class="btn btn-success" onclick="pageEvents.loadBlogPost('{{Link}}');">ler!</button>
+        </div>
+    </div>
+</script>
